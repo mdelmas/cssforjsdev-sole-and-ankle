@@ -1,19 +1,17 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React from "react";
+import styled from "styled-components/macro";
 
-import { COLORS, WEIGHTS } from '../../constants';
-import Icon from '../Icon';
+import { COLORS, WEIGHTS } from "../../constants";
+import Icon from "../Icon";
 
-const Select = ({ label, value, children, ...delegated }) => {
+const Select = ({ label, value, children, displayStyle, ...delegated }) => {
   const childArray = React.Children.toArray(children);
-  const selectedChild = childArray.find(
-    (child) => child.props.value === value
-  );
+  const selectedChild = childArray.find((child) => child.props.value === value);
 
   const displayedValue = selectedChild.props.children;
 
   return (
-    <Wrapper>
+    <Wrapper displayStyle={displayStyle}>
       <VisibleLabel>{label}</VisibleLabel>
 
       <SelectWrapper>
@@ -21,18 +19,19 @@ const Select = ({ label, value, children, ...delegated }) => {
 
         <DisplayedBit>
           {displayedValue}
-          <ChevronIcon
-            id="chevron-down"
-            size={24}
-            strokeWidth={1.5}
-          />
+          <ChevronIcon id="chevron-down" size={24} strokeWidth={1.5} />
         </DisplayedBit>
       </SelectWrapper>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.label``;
+const Wrapper = styled.label`
+  display: flex;
+  flex-direction: ${(props) =>
+    props.displayStyle && props.displayStyle === "row" ? "row" : "column"};
+  align-items: baseline;
+`;
 
 const VisibleLabel = styled.span`
   color: ${COLORS.gray[700]};
